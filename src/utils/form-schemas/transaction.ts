@@ -15,8 +15,10 @@ const Update = Yup.object().shape({
 
 const Create = Update.concat(
   Yup.object().shape({
-    type: Yup.string().required('Informe o tipo').oneOf(['entry', 'exit'], 'Tipo inválido'),
-  })
+    type: Yup.string()
+      .required('Informe o tipo')
+      .oneOf(['entry', 'exit'], 'Tipo inválido'),
+  }),
 );
 
 // ----------------------------------------------------------------------

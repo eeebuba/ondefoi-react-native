@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
-// rhf
 import { FormProvider, UseFormReturn } from 'react-hook-form';
 
 // ----------------------------------------------------------------------
 
 type Props = {
   children: ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   methods: UseFormReturn<any>;
 };
 

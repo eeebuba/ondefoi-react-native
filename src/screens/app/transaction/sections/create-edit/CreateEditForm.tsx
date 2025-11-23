@@ -1,27 +1,25 @@
-import React, { useState } from 'react';
-// hooks
-import { useTheme } from '@src/hooks/useTheme';
-// types
-import { ITransaction, TTransactionCreate, TTransactionUpdate } from '@src/@types/transaction';
-// form
-import { useForm } from 'react-hook-form';
-import { TransactionSchemas } from '@src/utils/form-schemas';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  RHFProvider,
-  RHFTextInput,
-  RHFDatePicker,
+  ITransaction,
+  TTransactionCreate,
+  TTransactionUpdate,
+} from '@src/@types/transaction';
+import { Alert, Button, Container, Gap } from '@src/components/default';
+import {
   RHFCurrencyInput,
+  RHFDatePicker,
+  RHFProvider,
   RHFSegmentedButtons,
+  RHFTextInput,
 } from '@src/components/hook-form';
-// components
-import { View } from 'react-native';
-import { Gap, Alert, Button, Container } from '@src/components/default';
-// utils
+import { toast } from '@src/components/toast';
+import { useTheme } from '@src/hooks/useTheme';
 import { dbMethods } from '@src/utils/firebase/database';
+import { TransactionSchemas } from '@src/utils/form-schemas';
+import React, { useState } from 'react';
+import { Resolver, useForm } from 'react-hook-form';
+import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-// sections
-// import { CategoryDialog } from './CategoryDialog';
 
 // ----------------------------------------------------------------------
 
@@ -54,19 +52,19 @@ export function CreateEditForm({ onSuccess, isEdit, editData }: Props) {
     value: undefined,
     type: 'exit' as TTransactionCreate['type'],
     occurred_at: new Date(),
-    // category: null,
     //
     afterSubmit: undefined,
   };
 
   const methods = useForm<CreateFormProps | UpdateFormProps>({
-    resolver: yupResolver(isEdit ? TransactionSchemas.Update : TransactionSchemas.Create),
+    resolver: yupResolver(
+      isEdit ? TransactionSchemas.Update : TransactionSchemas.Create,
+    ) as unknown as Resolver<CreateFormProps, undefined, CreateFormProps>,
     defaultValues: isEdit ? editData : defaultValues,
   });
 
   const {
     handleSubmit,
-    setError,
     reset,
     formState: { errors, isSubmitting },
   } = methods;
@@ -80,7 +78,6 @@ export function CreateEditForm({ onSuccess, isEdit, editData }: Props) {
           value: _data.value,
           type: _data.type,
           occurred_at: _data.occurred_at,
-          // category: null,
         };
 
         await dbMethods().transaction.create(createData);
@@ -101,12 +98,9 @@ export function CreateEditForm({ onSuccess, isEdit, editData }: Props) {
       }
 
       onSuccess();
-    } catch (error: any) {
+    } catch (error) {
       console.log('[ebuba] error: ', error);
-      setError('afterSubmit', {
-        ...error,
-        message: error.message ?? 'Ocorreu um erro inesperado :/',
-      });
+      toast.error('Ocorreu um erro inesperado :/');
     }
   };
 
@@ -116,16 +110,13 @@ export function CreateEditForm({ onSuccess, isEdit, editData }: Props) {
 
   const onDelete = async () => {
     if (!isEdit || !editData) return;
-    await setIsDeleting(true);
+    setIsDeleting(true);
     try {
       await dbMethods().transaction.delete(editData.id);
       onSuccess();
-    } catch (error: any) {
+    } catch (error) {
       console.log('[ebuba] error: ', error);
-      setError('afterSubmit', {
-        ...error,
-        message: error.message ?? 'Ocorreu um erro inesperado :/',
-      });
+      toast.error('Ocorreu um erro inesperado :/');
     }
     setIsDeleting(false);
   };
@@ -190,7 +181,7 @@ export function CreateEditForm({ onSuccess, isEdit, editData }: Props) {
               <>
                 <Gap />
                 <Button
-                  onPress={onDelete}
+                  onPress={() => void onDelete()}
                   loading={isDeleting}
                   variant="text"
                   textStyle={{ color: theme.palette.error.main }}
@@ -202,7 +193,10 @@ export function CreateEditForm({ onSuccess, isEdit, editData }: Props) {
 
             <Gap />
 
-            <Button onPress={handleSubmit(onSubmit)} loading={isSubmitting}>
+            <Button
+              onPress={() => void handleSubmit(onSubmit)()}
+              loading={isSubmitting}
+            >
               {isEdit ? 'Salvar' : 'Adicionar'}
             </Button>
           </View>

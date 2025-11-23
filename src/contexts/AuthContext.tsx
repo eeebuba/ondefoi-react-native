@@ -1,11 +1,9 @@
-import React, { createContext, ReactNode, useState, useEffect } from 'react';
-// types
 import { IUser, IUserAuth } from '@src/@types/user';
-// utils
-import { auth } from '@src/utils/firebase/firebase';
 import { authMethods } from '@src/utils/firebase/auth';
 import { dbMethods } from '@src/utils/firebase/database';
-import { onAuthStateChanged } from 'firebase/auth/react-native';
+import { auth } from '@src/utils/firebase/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import React, { createContext, ReactNode, useEffect, useState } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -30,17 +28,20 @@ export function AuthProvider({ children }: Props) {
   const [user, setUser] = useState<AuthContextProps['user']>(null);
 
   useEffect(() => {
-    const onAuthStateChange = onAuthStateChanged(auth, async (_user) => {
+    const onAuthStateChange = onAuthStateChanged(auth, (_user) => {
       if (_user) {
-        const _userData = await dbMethods().user.show();
-        const userData: IUser & IUserAuth = {
-          id: _user.uid,
-          email: _user.email || '',
-          ..._userData,
-        };
-        setUser(userData);
-        setIsLogged(true);
-        setIsLoading(false);
+        void dbMethods()
+          .user.show()
+          .then((_userData) => {
+            const userData: IUser & IUserAuth = {
+              id: _user.uid,
+              email: _user.email || '',
+              ..._userData,
+            };
+            setUser(userData);
+            setIsLogged(true);
+            setIsLoading(false);
+          });
       } else {
         setUser(null);
         setIsLogged(false);
@@ -72,4 +73,6 @@ export function AuthProvider({ children }: Props) {
 
 // ----------------------------------------------------------------------
 
-export const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
+export const AuthContext = createContext<AuthContextProps>(
+  {} as AuthContextProps,
+);

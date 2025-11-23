@@ -1,29 +1,27 @@
-import { useState } from 'react';
-// hooks
-import { useTheme } from '@src/hooks/useTheme';
-// components
+import { ITransaction } from '@src/@types/transaction';
 import { Sheet } from '@src/components/Sheet';
 import { Fade } from '@src/components/animations/Fade';
-import { View, Dimensions, ScrollView } from 'react-native';
-import { Container, Gap, Icon, IconButton, Text } from '@src/components/default';
-// utils
-import { alpha } from '@src/utils/theme';
+import {
+  Container,
+  Gap,
+  Icon,
+  IconButton,
+  Text,
+} from '@src/components/default';
+import { useTheme } from '@src/hooks/useTheme';
 import { fCurrency } from '@src/utils/formatNumber';
+import { alpha } from '@src/utils/theme';
 import { TTransactionByDate } from '@src/utils/transactions';
-// sections
-import { CreateFab } from './CreateFab';
-import { ITransaction } from '@src/@types/transaction';
+import { useState } from 'react';
+import { ScrollView, View } from 'react-native';
 import { TransactionCreateEdit } from '../../TransactionCreateEdit';
+import { CreateFab } from './CreateFab';
 
 // ----------------------------------------------------------------------
 
 type Props = {
   transactions: TTransactionByDate[];
 };
-
-//
-
-const { height: _screenHeight } = Dimensions.get('screen');
 
 // ----------------------------------------------------------------------
 
@@ -35,7 +33,8 @@ export function MonthTransactions({ transactions }: Props) {
   const [isFabExtended, setIsFabExtended] = useState(true);
 
   const [isEditScreenOpen, setIsEditScreenOpen] = useState(false);
-  const [transactionEditData, setTransactionEditData] = useState<ITransaction>();
+  const [transactionEditData, setTransactionEditData] =
+    useState<ITransaction>();
 
   // ----------------------------------------------------------------------
 
@@ -44,7 +43,8 @@ export function MonthTransactions({ transactions }: Props) {
       {!!transactions.length && (
         <ScrollView
           onScroll={(event) => {
-            const currentScrollPosition = Math.floor(event.nativeEvent.contentOffset.y) ?? 0;
+            const currentScrollPosition =
+              Math.floor(event.nativeEvent.contentOffset.y) ?? 0;
             setIsFabExtended(currentScrollPosition <= 0);
           }}
         >
@@ -94,7 +94,11 @@ export function MonthTransactions({ transactions }: Props) {
                           <Icon
                             name={isExit ? 'made' : 'received'}
                             size="large"
-                            color={isExit ? theme.palette.error.main : theme.palette.primary.main}
+                            color={
+                              isExit
+                                ? theme.palette.error.main
+                                : theme.palette.primary.main
+                            }
                           />
                         </View>
 
@@ -104,10 +108,16 @@ export function MonthTransactions({ transactions }: Props) {
                             paddingHorizontal: theme.props.padding.element,
                           }}
                         >
-                          <Text variant="h4" style={{ color: theme.palette.text.secondary }}>
+                          <Text
+                            variant="h4"
+                            style={{ color: theme.palette.text.secondary }}
+                          >
                             {transaction.description}
                           </Text>
-                          <Text variant="subtitle1" style={{ color: theme.palette.text.faded }}>
+                          <Text
+                            variant="subtitle1"
+                            style={{ color: theme.palette.text.faded }}
+                          >
                             {'R$ ' + fCurrency(transaction.value)}
                           </Text>
                         </View>

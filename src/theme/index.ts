@@ -1,8 +1,7 @@
-import colors from './colors';
-//
-import { TextStyle } from 'react-native';
-import { alpha } from '@src/utils/theme';
 import { Theme as TNavigationTheme } from '@react-navigation/native';
+import { alpha } from '@src/utils/theme';
+import { TextStyle } from 'react-native';
+import colors from './colors';
 
 // ----------------------------------------------------------------------
 
@@ -29,7 +28,12 @@ const palette = {
     elevated: '#323238',
     backdrop: alpha(mainBlack, 0.8),
   },
-  text: { primary: mainWhite, secondary: '#E1E1E1', faded: '#8D8D99', disabled: '#323238' },
+  text: {
+    primary: mainWhite,
+    secondary: '#E1E1E1',
+    faded: '#8D8D99',
+    disabled: '#323238',
+  },
 };
 
 // ----------------------------------------------------------------------
@@ -59,7 +63,10 @@ const theme = {
   dark: true,
   palette: palette,
   font: font,
-  props: { borderRadius: { element: 6, card: 8, shape: 20 }, padding: { element: 12 } },
+  props: {
+    borderRadius: { element: 6, card: 8, shape: 20 },
+    padding: { element: 12 },
+  },
   //
   colors: navigationColors, // used by react-navigation
 };

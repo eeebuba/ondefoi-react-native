@@ -8,13 +8,17 @@ import { useFocusEffect } from '@react-navigation/native';
 
 // ----------------------------------------------------------------------
 
-export const addTransition = (Screen: (props: any) => JSX.Element) => {
-  return (props: any) => <ScreenTransition>{Screen(props)}</ScreenTransition>;
+export const addTransition = (
+  Screen: (props: { children: React.ReactNode }) => React.ReactNode,
+) => {
+  return (props: { children: React.ReactNode }) => (
+    <ScreenTransition>{Screen(props)}</ScreenTransition>
+  );
 };
 
 // ----------------------------------------------------------------------
 
-export const ScreenTransition = (props: any) => {
+export const ScreenTransition = (props: { children: React.ReactNode }) => {
   const opacity = useSharedValue(0);
 
   useFocusEffect(() => {
@@ -33,5 +37,7 @@ export const ScreenTransition = (props: any) => {
 
   // ----------------------------------------------------------------------
 
-  return <Animated.View style={[animatedStyle]}>{props.children}</Animated.View>;
+  return (
+    <Animated.View style={[animatedStyle]}>{props.children}</Animated.View>
+  );
 };

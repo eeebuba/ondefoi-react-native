@@ -1,9 +1,6 @@
-// theme
-import { theme } from '@src/theme';
-// components
-import { View, ViewProps } from 'react-native';
-// assets
 import icons from '@src/assets/icons';
+import { theme } from '@src/theme';
+import { View, ViewProps } from 'react-native';
 
 // ----------------------------------------------------------------------
 

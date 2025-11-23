@@ -1,4 +1,3 @@
-// components
 import { View } from 'react-native';
 
 // ----------------------------------------------------------------------
@@ -11,5 +10,7 @@ type Props = {
 // ----------------------------------------------------------------------
 
 export function Gap({ size = 12, direction = 'vertical' }: Props) {
-  return <View style={{ [direction === 'vertical' ? 'height' : 'width']: size }} />;
+  return (
+    <View style={{ [direction === 'vertical' ? 'height' : 'width']: size }} />
+  );
 }

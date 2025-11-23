@@ -1,8 +1,6 @@
-import React, { createContext, ReactNode, useState, useEffect } from 'react';
-// types
 import { ITransaction } from '@src/@types/transaction';
-// utils
 import { dbMethods } from '@src/utils/firebase/database';
+import React, { createContext, ReactNode, useEffect, useState } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -45,5 +43,5 @@ export function TransactionsProvider({ children }: Props) {
 // ----------------------------------------------------------------------
 
 export const TransactionsContext = createContext<TransactionsContextProps>(
-  {} as TransactionsContextProps
+  {} as TransactionsContextProps,
 );

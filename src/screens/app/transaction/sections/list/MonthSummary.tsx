@@ -1,11 +1,8 @@
-// hooks
-import { useTheme } from '@src/hooks/useTheme';
-// components
-import { View } from 'react-native';
-import { Text } from '@src/components/default';
-// utils
-import { fCurrency } from '@src/utils/formatNumber';
 import { ITransaction } from '@src/@types/transaction';
+import { Text } from '@src/components/default';
+import { useTheme } from '@src/hooks/useTheme';
+import { fCurrency } from '@src/utils/formatNumber';
+import { View } from 'react-native';
 
 // ----------------------------------------------------------------------
 
@@ -33,7 +30,7 @@ export function MonthSummary({ transactions }: Props) {
         entry: accumulator.entry + item.value,
       };
     },
-    { exit: 0, entry: 0 }
+    { exit: 0, entry: 0 },
   );
 
   // ----------------------------------------------------------------------
@@ -53,7 +50,10 @@ export function MonthSummary({ transactions }: Props) {
     >
       <SideText label="ganhos" value={fCurrency(summary.entry)} />
 
-      <CenterText label="resultado" value={fCurrency(summary.entry - summary.exit)} />
+      <CenterText
+        label="resultado"
+        value={fCurrency(summary.entry - summary.exit)}
+      />
 
       <SideText label="despesas" value={'-' + fCurrency(summary.exit)} />
     </View>
@@ -97,7 +97,8 @@ function CenterText({ label, value }: LabelProps) {
 function SideText({ label, value }: LabelProps) {
   const theme = useTheme();
 
-  const color = label === 'ganhos' ? theme.palette.primary.main : theme.palette.error.main;
+  const color =
+    label === 'ganhos' ? theme.palette.primary.main : theme.palette.error.main;
 
   return (
     <View style={{ flex: 1 }}>

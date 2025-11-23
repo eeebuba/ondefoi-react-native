@@ -1,19 +1,20 @@
-import { db, auth } from './firebase';
-//
 import {
-  doc,
-  addDoc,
-  getDoc,
-  updateDoc,
-  deleteDoc,
-  collection,
-  onSnapshot,
-} from 'firebase/firestore';
-// types
+  ITransaction,
+  TTransactionCreate,
+  TTransactionUpdate,
+} from '@src/@types/transaction';
 import { IUser } from '@src/@types/user';
-import { ITransaction, TTransactionCreate, TTransactionUpdate } from '@src/@types/transaction';
-// utils
 import { startOfDay } from 'date-fns';
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  onSnapshot,
+  updateDoc,
+} from 'firebase/firestore';
+import { auth, db } from './firebase';
 
 // ----------------------------------------------------------------------
 
@@ -56,7 +57,7 @@ class dbService {
               return {
                 id: doc.id,
                 ...doc.data(),
-                occurred_at: doc.data().occurred_at.toDate(),
+                // occurred_at: (doc.data() as ITransaction).occurred_at.date(),
               } as ITransaction;
             });
             callback(data);
@@ -75,7 +76,7 @@ class dbService {
 // ----------------------------------------------------------------------
 
 const dbMethods = () => {
-  const instance = new dbService(auth.currentUser!.uid);
+  const instance = new dbService(auth.currentUser?.uid as string);
   return instance.dbMethods();
 };
 

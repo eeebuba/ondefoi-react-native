@@ -12,7 +12,7 @@ const Password = Yup.string()
   .required('Informe uma senha')
   .matches(
     /^.*(?=.{8,})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-    'Sua senha deve conter no mínimo: 8 caracteres, 1 maiúsculo, 1 minúsculo e 1 número'
+    'Sua senha deve conter no mínimo: 8 caracteres, 1 maiúsculo, 1 minúsculo e 1 número',
   )
   .max(64, 'Sua senha pode ter no máximo 64 caracteres')
   .trim();

@@ -1,21 +1,18 @@
-import { ReactNode, useEffect, useRef } from 'react';
-// hooks
-import { useTheme } from '@src/hooks/useTheme';
-// components
-import { Portal } from '@gorhom/portal';
 import BottomSheet from '@gorhom/bottom-sheet';
-import { View, BackHandler, TouchableWithoutFeedback } from 'react-native';
+import { Portal } from '@gorhom/portal';
+import { useTheme } from '@src/hooks/useTheme';
+import { ReactNode, useEffect, useRef } from 'react';
+import { BackHandler, TouchableWithoutFeedback, View } from 'react-native';
 
 // ----------------------------------------------------------------------
 
-type Props = {
+export function Sheet({
+  children,
+  onClose,
+}: {
   children: ReactNode;
   onClose: VoidFunction;
-};
-
-// ----------------------------------------------------------------------
-
-export function Sheet({ children, onClose }: Props) {
+}) {
   const theme = useTheme();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -29,10 +26,7 @@ export function Sheet({ children, onClose }: Props) {
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBack);
-
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBack);
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ----------------------------------------------------------------------

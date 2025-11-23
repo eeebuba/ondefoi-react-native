@@ -1,18 +1,15 @@
-import { useEffect, useState } from 'react';
-// theme
 import { theme } from '@src/theme';
-// components
-import { Text } from './Text';
-import { Icon } from './Icon';
+import { useEffect, useState } from 'react';
+import { Pressable, PressableProps } from 'react-native';
 import Animated, {
   Easing,
-  withTiming,
-  useSharedValue,
-  useAnimatedStyle,
-  //
   useAnimatedRef,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
 } from 'react-native-reanimated';
-import { Pressable, PressableProps } from 'react-native';
+import { Icon } from './Icon';
+import { Text } from './Text';
 
 // ----------------------------------------------------------------------
 
@@ -32,10 +29,16 @@ export function Fab({ icon, label, extended, onPress, ...rest }: Props) {
   const backgroundColor = useSharedValue(bgIdle);
 
   const fadeIn = () => {
-    backgroundColor.value = withTiming(bgActive, { duration: 100, easing: Easing.ease });
+    backgroundColor.value = withTiming(bgActive, {
+      duration: 100,
+      easing: Easing.ease,
+    });
   };
   const fadeOut = () => {
-    backgroundColor.value = withTiming(bgIdle, { duration: 200, easing: Easing.ease });
+    backgroundColor.value = withTiming(bgIdle, {
+      duration: 200,
+      easing: Easing.ease,
+    });
   };
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -57,7 +60,10 @@ export function Fab({ icon, label, extended, onPress, ...rest }: Props) {
   const labelMaxWidth = useSharedValue(labelStartMaxWidth);
 
   const extendIn = () => {
-    labelMaxWidth.value = withTiming(labelStartMaxWidth, { duration: 100, easing: Easing.ease });
+    labelMaxWidth.value = withTiming(labelStartMaxWidth, {
+      duration: 100,
+      easing: Easing.ease,
+    });
   };
   const extendOut = () => {
     labelMaxWidth.value = withTiming(0, { duration: 100, easing: Easing.ease });
@@ -73,6 +79,7 @@ export function Fab({ icon, label, extended, onPress, ...rest }: Props) {
     } else {
       extendOut();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [extended, labelStartMaxWidth]);
 
   // useEffect(() => {
@@ -85,7 +92,12 @@ export function Fab({ icon, label, extended, onPress, ...rest }: Props) {
   // ----------------------------------------------------------------------
 
   return (
-    <Pressable onPress={onPress} onPressIn={fadeIn} onPressOut={fadeOut} {...rest}>
+    <Pressable
+      onPress={onPress}
+      onPressIn={fadeIn}
+      onPressOut={fadeOut}
+      {...rest}
+    >
       <Animated.View style={[animatedStyle]}>
         <Icon name={icon} size="large" />
 
@@ -104,7 +116,11 @@ export function Fab({ icon, label, extended, onPress, ...rest }: Props) {
           variant="subtitle1"
           numberOfLines={1}
           ellipsizeMode={'clip'}
-          style={{ paddingLeft: theme.props.padding.element, height: 0, position: 'absolute' }}
+          style={{
+            paddingLeft: theme.props.padding.element,
+            height: 0,
+            position: 'absolute',
+          }}
           onLayout={({
             nativeEvent: {
               layout: { width },

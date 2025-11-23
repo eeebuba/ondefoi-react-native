@@ -1,11 +1,9 @@
-import { ReactNode } from 'react';
-// theme
 import { theme } from '@src/theme';
-// components
-import { Text } from './Text';
+import { ReactNode } from 'react';
 import { View } from 'react-native';
-import { IconButton } from './IconButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { IconButton } from './IconButton';
+import { Text } from './Text';
 
 // ----------------------------------------------------------------------
 
@@ -27,7 +25,9 @@ export function Header({ onPressBack, title, right }: Props) {
       }}
     >
       <View style={{ height: 100, width: '100%', position: 'absolute' }}>
-        <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <SafeAreaView
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        >
           <Text variant="h3">{title}</Text>
         </SafeAreaView>
       </View>

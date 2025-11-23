@@ -1,14 +1,16 @@
-import { useState } from 'react';
-// theme
-import { theme } from '@src/theme';
-// rhf
-import { useFormContext, Controller } from 'react-hook-form';
-// components
-import { Icon, Text } from '@src/components/default';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { View, Keyboard, TextInput, Pressable, TextInputProps } from 'react-native';
-// utils
+import { Icon, Text } from '@src/components/default';
+import { theme } from '@src/theme';
 import { fDateWritten } from '@src/utils/date';
+import { useState } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import {
+  Keyboard,
+  Pressable,
+  TextInput,
+  TextInputProps,
+  View,
+} from 'react-native';
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +34,7 @@ export default function RHFDatePicker({ name, ...rest }: Props) {
           {isOpen && (
             <DateTimePicker
               mode="date"
-              value={value}
+              value={value as Date}
               is24Hour={true}
               onChange={(event, date) => {
                 if (event.type === 'set') {
@@ -68,7 +70,7 @@ export default function RHFDatePicker({ name, ...rest }: Props) {
               <TextInput
                 editable={false}
                 onChangeText={onChange}
-                value={fDateWritten(value)}
+                value={fDateWritten(value as Date)}
                 placeholderTextColor={theme.palette.text.faded}
                 style={{
                   flex: 1,

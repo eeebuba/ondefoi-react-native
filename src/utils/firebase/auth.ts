@@ -1,26 +1,25 @@
-import { auth, db } from './firebase';
-//
 import {
-  signOut,
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-} from 'firebase/auth/react-native';
+  signInWithEmailAndPassword,
+  signOut,
+} from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from './firebase';
 
 // ----------------------------------------------------------------------
 
 class authService {
-  constructor() {}
-
   authMethods() {
     return {
       signUp: async (email: string, password: string, nickname: string) => {
-        return createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-          return setDoc(doc(db, 'users', userCredential.user.uid), {
-            nickname: nickname,
-            created_at: new Date(),
-          });
-        });
+        return createUserWithEmailAndPassword(auth, email, password).then(
+          (userCredential) => {
+            return setDoc(doc(db, 'users', userCredential.user.uid), {
+              nickname: nickname,
+              created_at: new Date(),
+            });
+          },
+        );
       },
 
       signIn: (email: string, password: string) => {
@@ -28,7 +27,7 @@ class authService {
       },
 
       signOut: () => {
-        signOut(auth);
+        void signOut(auth);
       },
     };
   }

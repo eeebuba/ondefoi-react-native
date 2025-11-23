@@ -1,11 +1,8 @@
-import { ReactNode } from 'react';
-// theme
-import { theme } from '@src/theme';
-// rhf
-import { useFormContext, Controller } from 'react-hook-form';
-// components
 import { Text } from '@src/components/default';
-import { View, TextInput, TextInputProps } from 'react-native';
+import { theme } from '@src/theme';
+import { ReactNode } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { TextInput, TextInputProps, View } from 'react-native';
 
 // ----------------------------------------------------------------------
 
@@ -59,7 +56,9 @@ export default function RHFTextInput({ name, label, right, ...rest }: Props) {
               {...rest}
             />
 
-            <View style={{ paddingVertical: 2, paddingRight: 16 }}>{right}</View>
+            <View style={{ paddingVertical: 2, paddingRight: 16 }}>
+              {right}
+            </View>
           </View>
 
           {!!error && (

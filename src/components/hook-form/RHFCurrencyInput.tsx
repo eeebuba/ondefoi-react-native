@@ -1,13 +1,9 @@
-import { ReactNode } from 'react';
-// theme
-import { theme } from '@src/theme';
-// rhf
-import { useFormContext, Controller } from 'react-hook-form';
-// components
 import { Text } from '@src/components/default';
-import { View, Text as NText, TextInput, TextInputProps } from 'react-native';
-// utils
+import { theme } from '@src/theme';
 import { fCurrency } from '@src/utils/formatNumber';
+import { ReactNode } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import { Text as NText, TextInput, TextInputProps, View } from 'react-native';
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +17,12 @@ type Props = IProps & Omit<TextInputProps, 'theme'>;
 
 // ----------------------------------------------------------------------
 
-export default function RHFCurrencyInput({ name, label, right, ...rest }: Props) {
+export default function RHFCurrencyInput({
+  name,
+  label,
+  right,
+  ...rest
+}: Props) {
   const { control } = useFormContext();
 
   return (
@@ -55,14 +56,15 @@ export default function RHFCurrencyInput({ name, label, right, ...rest }: Props)
                 color: theme.palette.text.primary,
               }}
             >
-              {fCurrency(value)}
+              {fCurrency(value as number)}
             </NText>
 
             <TextInput
-              value={fCurrency(value)}
+              value={fCurrency(value as number)}
               onChangeText={(text) => {
                 const rawNumber = text.replace(/\D+/g, '');
-                const formated = rawNumber.slice(0, -2) + '.' + rawNumber.slice(-2);
+                const formated =
+                  rawNumber.slice(0, -2) + '.' + rawNumber.slice(-2);
                 onChange(parseFloat(formated));
               }}
               maxLength={9}
@@ -84,7 +86,9 @@ export default function RHFCurrencyInput({ name, label, right, ...rest }: Props)
               {...rest}
             />
 
-            <View style={{ paddingVertical: 2, paddingRight: 16 }}>{right}</View>
+            <View style={{ paddingVertical: 2, paddingRight: 16 }}>
+              {right}
+            </View>
           </View>
 
           {!!error && (

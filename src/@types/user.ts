@@ -16,7 +16,6 @@ export interface IUser {
 
 export type TUserCreate = TUserLogin & {
   nickname: string;
-  created_at: Date;
 };
 
 // ----------------------------------------------------------------------

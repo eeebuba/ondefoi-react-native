@@ -1,32 +1,21 @@
-import { useEffect, useState } from 'react';
-// components
-import { View } from 'react-native';
-import { Header } from '@src/components/default';
-// hooks
-import { useTransactions } from '@src/hooks/useTransactions';
-// types
 import { ITransaction } from '@src/@types/transaction';
-import { TransactionListScreenProps } from '@src/routes/app.routes';
-// utils
+import { Header } from '@src/components/default';
+import { useTransactions } from '@src/hooks/useTransactions';
 import {
   TTransactionByDate,
-  groupTransactionsByDay,
   filterTransactionsByMonth,
+  groupTransactionsByDay,
 } from '@src/utils/transactions';
-// sections
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import { MonthSelect } from './sections/list/MonthSelect';
 import { MonthSummary } from './sections/list/MonthSummary';
 import { MonthTransactions } from './sections/list/MonthTransactions';
 
 // ----------------------------------------------------------------------
 
-type Props = {
-  navigation: TransactionListScreenProps['navigation'];
-};
-
-// ----------------------------------------------------------------------
-
-export function TransactionList({ navigation }: Props) {
+export function TransactionList() {
   const { rawTransactions } = useTransactions();
 
   const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
@@ -50,15 +39,19 @@ export function TransactionList({ navigation }: Props) {
 
   useEffect(() => {
     handleTransactionsChange();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rawTransactions, selectedMonth]);
 
   // ----------------------------------------------------------------------
 
   return (
     <View style={{ flex: 1 }}>
-      <Header onPressBack={() => navigation.navigate('Home')} title="Transações" />
+      <Header onPressBack={() => router.navigate('/home')} title="Transações" />
 
-      <MonthSelect selectedMonth={selectedMonth} onChangeMonth={setSelectedMonth} />
+      <MonthSelect
+        selectedMonth={selectedMonth}
+        onChangeMonth={setSelectedMonth}
+      />
 
       <MonthSummary transactions={transactions.byMonth} />
 

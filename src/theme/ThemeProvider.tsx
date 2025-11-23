@@ -1,23 +1,15 @@
-import { ReactNode } from 'react';
-import * as NavigationBar from 'expo-navigation-bar';
-// theme
 import { theme } from '@src/theme';
-// components
+import * as NavigationBar from 'expo-navigation-bar';
 import { StatusBar } from 'expo-status-bar';
+import { ReactNode } from 'react';
 
 // ----------------------------------------------------------------------
 
-NavigationBar.setBackgroundColorAsync(theme.palette.background.default);
+void NavigationBar.setBackgroundColorAsync(theme.palette.background.default);
 
 // ----------------------------------------------------------------------
 
-type Props = {
-  children: ReactNode;
-};
-
-// ----------------------------------------------------------------------
-
-export function ThemeProvider({ ...rest }: Props) {
+export function ThemeProvider({ ...rest }: { children: ReactNode }) {
   return (
     <>
       <StatusBar style="light" />

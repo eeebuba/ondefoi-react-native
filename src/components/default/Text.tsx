@@ -1,6 +1,4 @@
-// theme
 import { theme } from '@src/theme';
-// components
 import { Text as NText, TextProps } from 'react-native';
 
 // ----------------------------------------------------------------------
@@ -69,15 +67,17 @@ const _variants = {
 
 // ----------------------------------------------------------------------
 
-export function Text({ variant, ...rest }: Props) {
+export function Text({ variant, style, ...rest }: Props) {
   return (
     <NText
       {...rest}
-      style={{
-        color: theme.palette.text.primary,
-        ..._variants[variant],
-        ...(rest.style as {}),
-      }}
+      style={[
+        {
+          color: theme.palette.text.primary,
+          ..._variants[variant],
+        },
+        style,
+      ]}
     >
       {rest.children}
     </NText>

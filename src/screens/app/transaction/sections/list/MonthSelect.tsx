@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
-// hooks
-import { useTheme } from '@src/hooks/useTheme';
-// components
 import { Button, IconButton } from '@src/components/default';
-import { Dimensions, FlatList, View, ViewToken } from 'react-native';
-// utils
-import { TMonthRef, isSameMonth, createMonthList } from '@src/utils/transactions';
+import { useTheme } from '@src/hooks/useTheme';
+import {
+  TMonthRef,
+  createMonthList,
+  isSameMonth,
+} from '@src/utils/transactions';
+import { useEffect, useRef, useState } from 'react';
+import { Dimensions, FlatList, View } from 'react-native';
 
 // ----------------------------------------------------------------------
 
@@ -35,7 +36,7 @@ export function MonthSelect({ selectedMonth, onChangeMonth }: Props) {
   useEffect(() => {
     const getCurrentMonthIndex = () => {
       const monthIndex = monthList.findIndex((_period) =>
-        isSameMonth(new Date(_period.refDate), selectedMonth)
+        isSameMonth(new Date(_period.refDate), selectedMonth),
       );
 
       if (monthIndex > 0) {
@@ -44,6 +45,7 @@ export function MonthSelect({ selectedMonth, onChangeMonth }: Props) {
     };
 
     getCurrentMonthIndex();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [monthList]);
 
   // ----------------------------------------------------------------------
@@ -62,6 +64,7 @@ export function MonthSelect({ selectedMonth, onChangeMonth }: Props) {
   useEffect(() => {
     scrollToView();
     onChangeMonth(monthList[index].refDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index]);
 
   // ----------------------------------------------------------------------
@@ -99,14 +102,12 @@ export function MonthSelect({ selectedMonth, onChangeMonth }: Props) {
         initialScrollIndex={0}
         fadingEdgeLength={200}
         onLayout={scrollToView}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => (item as TMonthRef).id}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: _screenWidth / 2 }}
         onScrollToIndexFailed={() => {
           const wait = new Promise((resolve) => setTimeout(resolve, 500));
-          wait.then(() => {
-            scrollToView();
-          });
+          void wait.then(() => scrollToView());
         }}
         // viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
         renderItem={({ item, index: fIndex }) => {
@@ -128,7 +129,7 @@ export function MonthSelect({ selectedMonth, onChangeMonth }: Props) {
                   setIndex(fIndex);
                 }}
               >
-                {item.label}
+                {(item as TMonthRef).label}
               </Button>
             </View>
           );

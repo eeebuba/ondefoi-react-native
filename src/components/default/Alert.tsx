@@ -1,9 +1,7 @@
-// theme
 import { theme } from '@src/theme';
-// components
-import { Text } from './Text';
-import { Icon } from './Icon';
 import { View, ViewProps } from 'react-native';
+import { Icon } from './Icon';
+import { Text } from './Text';
 
 // ----------------------------------------------------------------------
 
@@ -26,7 +24,10 @@ export function Alert({ variant = 'error', ...rest }: Props) {
       }}
     >
       <Icon name={variant} />
-      <Text variant="subtitle1" style={{ marginLeft: theme.props.padding.element }}>
+      <Text
+        variant="subtitle1"
+        style={{ marginLeft: theme.props.padding.element }}
+      >
         {rest.children}
       </Text>
     </View>

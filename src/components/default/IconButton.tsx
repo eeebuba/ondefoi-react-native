@@ -1,16 +1,14 @@
-// theme
 import { theme } from '@src/theme';
-// components
-import { Icon } from './Icon';
-import Animated, {
-  Easing,
-  withTiming,
-  useSharedValue,
-  useAnimatedStyle,
-} from 'react-native-reanimated';
-import { Pressable, PressableProps } from 'react-native';
-// utils
 import { alpha } from '@src/utils/theme';
+import { Pressable, PressableProps, ViewProps } from 'react-native';
+import Animated, {
+  AnimatedProps,
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
+import { Icon } from './Icon';
 
 // ----------------------------------------------------------------------
 
@@ -20,12 +18,23 @@ type Props = {
   color?: string;
   size?: number | 'small' | 'medium' | 'large';
   selected?: boolean;
-} & PressableProps;
+} & Omit<PressableProps, 'style'> &
+  { style?: AnimatedProps<ViewProps> }['style'];
 
 // ----------------------------------------------------------------------
 
-export function IconButton({ name, onPress, color, size, selected = false, ...rest }: Props) {
-  const bgIdle = selected ? theme.palette.background.paper : alpha(theme.palette.text.faded, 0);
+export function IconButton({
+  name,
+  onPress,
+  color,
+  size,
+  selected = false,
+  style,
+  ...rest
+}: Props) {
+  const bgIdle = selected
+    ? theme.palette.background.paper
+    : alpha(theme.palette.text.faded, 0);
   const bgActive = selected
     ? theme.palette.background.neutral
     : alpha(theme.palette.text.faded, 0.12);
@@ -33,11 +42,17 @@ export function IconButton({ name, onPress, color, size, selected = false, ...re
   const backgroundColor = useSharedValue(bgIdle);
 
   const fadeIn = () => {
-    backgroundColor.value = withTiming(bgActive, { duration: 100, easing: Easing.ease });
+    backgroundColor.value = withTiming(bgActive, {
+      duration: 100,
+      easing: Easing.ease,
+    });
   };
 
   const fadeOut = () => {
-    backgroundColor.value = withTiming(bgIdle, { duration: 200, easing: Easing.ease });
+    backgroundColor.value = withTiming(bgIdle, {
+      duration: 200,
+      easing: Easing.ease,
+    });
   };
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -50,13 +65,13 @@ export function IconButton({ name, onPress, color, size, selected = false, ...re
   }));
 
   return (
-    <Pressable onPress={onPress} onPressIn={fadeIn} onPressOut={fadeOut} {...rest}>
-      <Animated.View
-        style={{
-          ...animatedStyle,
-          ...(rest.style as {}),
-        }}
-      >
+    <Pressable
+      onPress={onPress}
+      onPressIn={fadeIn}
+      onPressOut={fadeOut}
+      {...rest}
+    >
+      <Animated.View style={[animatedStyle, style]}>
         <Icon name={name} color={color} size={size} />
       </Animated.View>
     </Pressable>

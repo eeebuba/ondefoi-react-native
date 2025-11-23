@@ -1,6 +1,5 @@
-import { useContext } from 'react';
-//
 import { AuthContext } from '@src/contexts/AuthContext';
+import { useContext } from 'react';
 
 // ----------------------------------------------------------------------
 

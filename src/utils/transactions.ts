@@ -1,13 +1,15 @@
-import { format, addMonths, addYears, endOfYear } from 'date-fns';
-import { pt } from 'date-fns/locale';
-// types
 import { ITransaction } from '@src/@types/transaction';
-// utils
 import { fDateWritten } from '@src/utils/date';
+import { addMonths, addYears, endOfYear, format } from 'date-fns';
+import { pt } from 'date-fns/locale';
 
 // ----------------------------------------------------------------------
 
-type TTransactionByDate = { date: string; label: string; transactions: ITransaction[] };
+type TTransactionByDate = {
+  date: string;
+  label: string;
+  transactions: ITransaction[];
+};
 
 /** used on month selector */
 type TMonthRef = {
@@ -19,7 +21,11 @@ type TMonthRef = {
 // ----------------------------------------------------------------------
 
 const getMonthDifference = (start: Date, end: Date) => {
-  return end.getMonth() - start.getMonth() + 12 * (end.getFullYear() - start.getFullYear());
+  return (
+    end.getMonth() -
+    start.getMonth() +
+    12 * (end.getFullYear() - start.getFullYear())
+  );
 };
 
 const isSameMonth = (dateLeft: Date, dateRight: Date): boolean => {
@@ -49,14 +55,17 @@ const createMonthList = () => {
 
 const groupTransactionsByDay = (transactions: ITransaction[]) => {
   // group by date
-  const groups = transactions.reduce((groups, transaction) => {
-    const date = transaction.occurred_at.toISOString().split('T')[0];
-    if (!groups[date]) {
-      groups[date] = [];
-    }
-    groups[date].push(transaction);
-    return groups;
-  }, {} as { [key: string]: ITransaction[] });
+  const groups = transactions.reduce(
+    (groups, transaction) => {
+      const date = transaction.occurred_at.toISOString().split('T')[0];
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push(transaction);
+      return groups;
+    },
+    {} as { [key: string]: ITransaction[] },
+  );
   // normalize
   const groupArrays = Object.keys(groups).map((date) => {
     return {
@@ -72,17 +81,22 @@ const groupTransactionsByDay = (transactions: ITransaction[]) => {
   return groupArrays;
 };
 
-const filterTransactionsByMonth = (transactions: ITransaction[], date: Date) => {
-  return transactions.filter((transaction) => isSameMonth(new Date(transaction.occurred_at), date));
+const filterTransactionsByMonth = (
+  transactions: ITransaction[],
+  date: Date,
+) => {
+  return transactions.filter((transaction) =>
+    isSameMonth(new Date(transaction.occurred_at), date),
+  );
 };
 
 // ----------------------------------------------------------------------
 
 export {
+  createMonthList,
+  filterTransactionsByMonth,
+  groupTransactionsByDay,
+  isSameMonth,
   TMonthRef,
   TTransactionByDate,
-  isSameMonth,
-  createMonthList,
-  groupTransactionsByDay,
-  filterTransactionsByMonth,
 };
