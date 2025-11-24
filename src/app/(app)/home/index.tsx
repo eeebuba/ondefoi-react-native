@@ -4,6 +4,7 @@ import { useTheme } from '@src/hooks/useTheme';
 import { useTransactions } from '@src/hooks/useTransactions';
 import { fCurrency } from '@src/utils/formatNumber';
 import { filterTransactionsByMonth } from '@src/utils/transactions';
+import { router } from 'expo-router';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -14,9 +15,11 @@ export default function HomePage() {
     <View style={{ flex: 1 }}>
       <Header />
 
-      <Container spacing="large">
+      <Container spacing="large" style={{ flex: 1 }}>
         <SummaryCard />
       </Container>
+
+      <Footer />
     </View>
   );
 }
@@ -29,9 +32,9 @@ function Header() {
 
   return (
     <SafeAreaView
+      edges={['top']}
       style={{
-        height: 148,
-        padding: 32,
+        padding: 16,
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'row',
@@ -66,6 +69,38 @@ function Header() {
       <IconButton
         name="logout"
         onPress={() => void signOut()}
+        color={theme.palette.text.faded}
+      />
+    </SafeAreaView>
+  );
+}
+
+// ----------------------------------------------------------------------
+
+function Footer() {
+  const theme = useTheme();
+
+  return (
+    <SafeAreaView
+      edges={['bottom']}
+      style={{
+        padding: 16,
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        backgroundColor: theme.palette.background.paper,
+      }}
+    >
+      <IconButton
+        name="home"
+        onPress={() => router.navigate('/home')}
+        color={theme.palette.text.primary}
+      />
+
+      <IconButton
+        name="sync"
+        onPress={() => router.navigate('/transactions')}
         color={theme.palette.text.faded}
       />
     </SafeAreaView>

@@ -22,7 +22,7 @@ export function TransactionCreateEdit({
     <>
       <Text
         variant="h2"
-        style={{ textAlign: 'center', paddingBottom: 20, paddingTop: 4 }}
+        style={{ textAlign: 'center', paddingBottom: 20, paddingTop: 18 }}
       >
         {isEdit ? 'Editar transação' : 'Adicionar transação'}
       </Text>

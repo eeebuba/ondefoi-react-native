@@ -36,10 +36,10 @@ const isSameMonth = (dateLeft: Date, dateRight: Date): boolean => {
 
 /** used to fill month selector */
 const createMonthList = () => {
-  const start = new Date('01/01/2022');
+  const start = new Date('2022-01-01');
   const end = endOfYear(addYears(new Date(), 1));
   const difference = getMonthDifference(start, end);
-  return Array.from(Array(difference + 1)).map((e, i) => {
+  return Array.from(Array(difference + 1)).map((_, i) => {
     const refDate = addMonths(start, i);
     let label = `${format(refDate, 'MMM yy', { locale: pt })}`;
     label = label.charAt(0).toUpperCase() + label.slice(1);
@@ -82,11 +82,13 @@ const groupTransactionsByDay = (transactions: ITransaction[]) => {
 };
 
 const filterTransactionsByMonth = (
-  transactions: ITransaction[],
+  transactions: ITransaction[] | undefined,
   date: Date,
-) => {
-  return transactions.filter((transaction) =>
-    isSameMonth(new Date(transaction.occurred_at), date),
+): ITransaction[] => {
+  return (
+    transactions?.filter((transaction) =>
+      isSameMonth(new Date(transaction.occurred_at), date),
+    ) || []
   );
 };
 

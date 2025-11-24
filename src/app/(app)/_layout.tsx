@@ -1,3 +1,4 @@
+import { TransactionsProvider } from '@src/contexts/TransactionsContext';
 import { useAuth } from '@src/hooks/useAuth';
 import { Redirect, Stack } from 'expo-router';
 
@@ -15,11 +16,13 @@ export default function Layout() {
   }
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        contentStyle: { backgroundColor: '#121214' },
-      }}
-    />
+    <TransactionsProvider>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: '#121214' },
+        }}
+      />
+    </TransactionsProvider>
   );
 }

@@ -1,5 +1,5 @@
 import { ITransaction } from '@src/@types/transaction';
-import { Sheet } from '@src/components/Sheet';
+import { BottomSheet, useBottomSheet } from '@src/components/BottomSheet';
 import { Fade } from '@src/components/animations/Fade';
 import {
   Container,
@@ -32,9 +32,15 @@ export function MonthTransactions({ transactions }: Props) {
 
   const [isFabExtended, setIsFabExtended] = useState(true);
 
-  const [isEditScreenOpen, setIsEditScreenOpen] = useState(false);
   const [transactionEditData, setTransactionEditData] =
     useState<ITransaction>();
+
+  const {
+    ref: modalRef,
+    isOpen: isOpen,
+    open: open,
+    close: close,
+  } = useBottomSheet();
 
   // ----------------------------------------------------------------------
 
@@ -127,7 +133,7 @@ export function MonthTransactions({ transactions }: Props) {
                           size="small"
                           onPress={() => {
                             setTransactionEditData(transaction);
-                            setIsEditScreenOpen(true);
+                            open();
                           }}
                         />
                       </View>
@@ -159,15 +165,19 @@ export function MonthTransactions({ transactions }: Props) {
 
       <CreateFab isExtended={isFabExtended} />
 
-      {isEditScreenOpen && (
-        <Sheet onClose={() => setIsEditScreenOpen(false)}>
-          <TransactionCreateEdit
-            onSuccess={() => setIsEditScreenOpen(false)}
-            isEdit
-            editData={transactionEditData}
-          />
-        </Sheet>
-      )}
+      <BottomSheet
+        ref={modalRef}
+        stackBehavior="push"
+        fullHeight
+        isOpen={isOpen}
+        onDismiss={() => close()}
+      >
+        <TransactionCreateEdit
+          onSuccess={() => close()}
+          isEdit
+          editData={transactionEditData}
+        />
+      </BottomSheet>
     </>
   );
 }

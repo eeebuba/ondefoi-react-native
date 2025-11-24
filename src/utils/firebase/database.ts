@@ -52,12 +52,15 @@ class dbService {
         },
 
         index: (callback: (data: ITransaction[]) => void) => {
+          console.log('index');
           return onSnapshot(transactionsColRef, (snapshot) => {
             const data = snapshot.docs.map((doc) => {
               return {
                 id: doc.id,
                 ...doc.data(),
-                // occurred_at: (doc.data() as ITransaction).occurred_at.date(),
+                occurred_at: (
+                  doc.data() as { occurred_at: { toDate: () => Date } }
+                ).occurred_at.toDate(),
               } as ITransaction;
             });
             callback(data);

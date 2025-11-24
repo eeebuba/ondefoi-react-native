@@ -4,6 +4,7 @@ import { dbMethods } from '@src/utils/firebase/database';
 import { auth } from '@src/utils/firebase/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
 
 // ----------------------------------------------------------------------
 
@@ -54,6 +55,10 @@ export function AuthProvider({ children }: Props) {
 
   async function signOut() {
     authMethods().signOut();
+  }
+
+  if (!isLoading) {
+    void SplashScreen.hideAsync();
   }
 
   return (
