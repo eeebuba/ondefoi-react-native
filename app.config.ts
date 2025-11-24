@@ -3,16 +3,16 @@ import { ExpoConfig } from 'expo/config';
 // ----------------------------------------------------------------------
 
 // REPRESENTATIVE VERSION - as shown in the app
-export const VERSION = '2.0.1';
+export const VERSION = '4.0.0';
 // EAS UPDATE TARGET - do not change the patch version
-const RUNTIME_VERSION = '2.0.1';
+const RUNTIME_VERSION = '4.0.0';
 
 /* both versions must have the same major and minor number */
 
 //
 
 // increase this number by 1 when you need to generate a new build
-export const BUILD_NUMBER: number = 3;
+export const BUILD_NUMBER: number = 10;
 
 const IOS_BUILD: string = String(BUILD_NUMBER);
 const ANDROID_BUILD: number = BUILD_NUMBER;
